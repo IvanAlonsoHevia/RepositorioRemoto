@@ -173,7 +173,7 @@ namespace WindowsFormsApplication1
             }
             else
                 //En el caso de no haberse identificado, se exige haberlo hecho antes de pedir la consulta.
-                MessageBox.Show("Se debe registrar antes de realizar la consulta.");
+                MessageBox.Show("Se debe loguear antes de realizar la consulta.");
         
         }
 
