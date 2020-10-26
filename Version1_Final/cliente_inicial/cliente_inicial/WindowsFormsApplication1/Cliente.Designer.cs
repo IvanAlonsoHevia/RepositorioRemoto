@@ -275,11 +275,11 @@
             this.Edgar.Location = new System.Drawing.Point(22, 229);
             this.Edgar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Edgar.Name = "Edgar";
-            this.Edgar.Size = new System.Drawing.Size(869, 24);
+            this.Edgar.Size = new System.Drawing.Size(904, 24);
             this.Edgar.TabIndex = 7;
             this.Edgar.TabStop = true;
-            this.Edgar.Text = "Quiero el Ganador en una partida con un número de jugadores mayor o igual a 3. Te" +
-                " doy el usuario contra el que juega.";
+            this.Edgar.Text = "Quiero el ganador que ha jugado contra el usuario que te doy en las partidas con " +
+                "un número de jugadores mayor o igual a 3.";
             this.Edgar.UseVisualStyleBackColor = true;
             // 
             // Omar
