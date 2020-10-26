@@ -53,6 +53,7 @@
             this.PosicionBox = new System.Windows.Forms.TextBox();
             this.Ivan = new System.Windows.Forms.RadioButton();
             this.desconectar = new System.Windows.Forms.Button();
+            this.logout = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -90,6 +91,7 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.groupBox1.Controls.Add(this.logout);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.PerdedorBox);
@@ -336,6 +338,18 @@
             this.desconectar.UseVisualStyleBackColor = true;
             this.desconectar.Click += new System.EventHandler(this.desconectar_Click);
             // 
+            // logout
+            // 
+            this.logout.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.logout.Location = new System.Drawing.Point(501, 137);
+            this.logout.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.logout.Name = "logout";
+            this.logout.Size = new System.Drawing.Size(224, 48);
+            this.logout.TabIndex = 11;
+            this.logout.Text = "log out";
+            this.logout.UseVisualStyleBackColor = true;
+            this.logout.Click += new System.EventHandler(this.logout_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -380,6 +394,7 @@
         private System.Windows.Forms.TextBox UsernameConsultaBox;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox PerdedorBox;
+        private System.Windows.Forms.Button logout;
     }
 }
 

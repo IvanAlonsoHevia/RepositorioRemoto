@@ -176,5 +176,10 @@ namespace WindowsFormsApplication1
                 MessageBox.Show("Se debe registrar antes de realizar la consulta.");
         
         }
+
+        private void logout_Click(object sender, EventArgs e)
+        {
+            registered = false;
+        }
     }
 }
