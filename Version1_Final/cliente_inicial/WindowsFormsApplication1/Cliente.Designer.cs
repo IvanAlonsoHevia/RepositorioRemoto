@@ -30,13 +30,13 @@
         {
             this.label2 = new System.Windows.Forms.Label();
             this.Username = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.conectar = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.PerdedorBox = new System.Windows.Forms.TextBox();
             this.UsernameConsultaBox = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.enviar = new System.Windows.Forms.Button();
             this.registrar = new System.Windows.Forms.Button();
             this.login = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -52,7 +52,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.PosicionBox = new System.Windows.Forms.TextBox();
             this.Ivan = new System.Windows.Forms.RadioButton();
-            this.button3 = new System.Windows.Forms.Button();
+            this.desconectar = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -74,19 +74,18 @@
             this.Username.Name = "Username";
             this.Username.Size = new System.Drawing.Size(218, 26);
             this.Username.TabIndex = 3;
-            this.Username.TextChanged += new System.EventHandler(this.nombre_TextChanged);
             // 
-            // button1
+            // conectar
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(38, 62);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(224, 48);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "conectar";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.conectar.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.conectar.Location = new System.Drawing.Point(38, 62);
+            this.conectar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.conectar.Name = "conectar";
+            this.conectar.Size = new System.Drawing.Size(224, 48);
+            this.conectar.TabIndex = 4;
+            this.conectar.Text = "conectar";
+            this.conectar.UseVisualStyleBackColor = true;
+            this.conectar.Click += new System.EventHandler(this.conectar_Click);
             // 
             // groupBox1
             // 
@@ -95,7 +94,7 @@
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.PerdedorBox);
             this.groupBox1.Controls.Add(this.UsernameConsultaBox);
-            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.enviar);
             this.groupBox1.Controls.Add(this.registrar);
             this.groupBox1.Controls.Add(this.login);
             this.groupBox1.Controls.Add(this.label6);
@@ -158,17 +157,17 @@
             this.UsernameConsultaBox.Size = new System.Drawing.Size(259, 26);
             this.UsernameConsultaBox.TabIndex = 14;
             // 
-            // button2
+            // enviar
             // 
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(22, 300);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(224, 48);
-            this.button2.TabIndex = 12;
-            this.button2.Text = "enviar";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.enviar.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.enviar.Location = new System.Drawing.Point(22, 300);
+            this.enviar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.enviar.Name = "enviar";
+            this.enviar.Size = new System.Drawing.Size(224, 48);
+            this.enviar.TabIndex = 12;
+            this.enviar.Text = "enviar";
+            this.enviar.UseVisualStyleBackColor = true;
+            this.enviar.Click += new System.EventHandler(this.enviar_Click);
             // 
             // registrar
             // 
@@ -258,7 +257,6 @@
             this.label1.Size = new System.Drawing.Size(158, 37);
             this.label1.TabIndex = 11;
             this.label1.Text = "Password";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // Password
             // 
@@ -267,7 +265,6 @@
             this.Password.Name = "Password";
             this.Password.Size = new System.Drawing.Size(218, 26);
             this.Password.TabIndex = 12;
-            this.Password.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // Edgar
             // 
@@ -312,7 +309,6 @@
             this.PosicionBox.Name = "PosicionBox";
             this.PosicionBox.Size = new System.Drawing.Size(204, 26);
             this.PosicionBox.TabIndex = 9;
-            this.PosicionBox.TextChanged += new System.EventHandler(this.alturaBox_TextChanged);
             // 
             // Ivan
             // 
@@ -328,30 +324,29 @@
                 "perdido.";
             this.Ivan.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // desconectar
             // 
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(38, 511);
-            this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(220, 82);
-            this.button3.TabIndex = 10;
-            this.button3.Text = "desconectar";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.desconectar.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.desconectar.Location = new System.Drawing.Point(38, 511);
+            this.desconectar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.desconectar.Name = "desconectar";
+            this.desconectar.Size = new System.Drawing.Size(220, 82);
+            this.desconectar.TabIndex = 10;
+            this.desconectar.Text = "desconectar";
+            this.desconectar.UseVisualStyleBackColor = true;
+            this.desconectar.Click += new System.EventHandler(this.desconectar_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1306, 865);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.desconectar);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.conectar);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -362,14 +357,14 @@
 
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox Username;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button conectar;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton Edgar;
         private System.Windows.Forms.RadioButton Ivan;
         private System.Windows.Forms.RadioButton Omar;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox PosicionBox;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button desconectar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox Password;
         private System.Windows.Forms.Label label6;
@@ -380,7 +375,7 @@
         private System.Windows.Forms.TextBox PuntuacionBox;
         private System.Windows.Forms.Button registrar;
         private System.Windows.Forms.Button login;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button enviar;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox UsernameConsultaBox;
         private System.Windows.Forms.Label label7;

@@ -14,23 +14,19 @@ namespace WindowsFormsApplication1
     public partial class Form1 : Form
     {
         Socket server;
-        bool registered = false;
+        bool registered = false; //bolean que nos permite saber si el usuario esta registrado o no e la base de datos.
         public Form1()
         {
             InitializeComponent();
         }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-           
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+        //Este boton nos conecta con la base de datos, y si lo hace bien, nos cambia el color del fondo a verde.
+        //Sino, nos sale un mensaje para avisarnos que no se ha podido realizar.
+        private void conectar_Click(object sender, EventArgs e)
         {
             //Creamos un IPEndPoint con el ip del servidor y puerto del servidor 
             //al que deseamos conectarnos
             IPAddress direc = IPAddress.Parse("192.168.56.102");
+            //Nos conectamos al mismo puerto que en el servidor.
             IPEndPoint ipep = new IPEndPoint(direc, 9050);
             
 
@@ -51,8 +47,9 @@ namespace WindowsFormsApplication1
             }
 
         }
-
-        private void button3_Click(object sender, EventArgs e)
+        //Este boton nos permite finalizar la conexion con la base de datos.
+        //Una vez hecha la desconexion, cambia el color del fondo a gris.
+        private void desconectar_Click(object sender, EventArgs e)
         {
             //Mensaje de desconexión
             string mensaje = "0/";
@@ -67,31 +64,12 @@ namespace WindowsFormsApplication1
 
 
         }
-
-        private void nombre_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void alturaBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        //Este boton introduce en la base de datos, el username y la password que el usuario ha tecleado
+        //Si el username esta cogido ya (introducido previamente en la base de datos), saldra un mensaje que nos indicara que escojamos otro.
         private void registrar_Click(object sender, EventArgs e)
         {
             string mensaje = "1/" + Username.Text + "/" + Password.Text;
-            // Enviamos al servidor el nombre tecleado
+            // Enviamos al servidor el username y password tecleadas.
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
 
@@ -104,11 +82,12 @@ namespace WindowsFormsApplication1
             else
                 MessageBox.Show("El usuario: " + Username.Text + ", ya está cogido.");
         }
-
+        //Este boton permite conectar a un usuario ya registrado en la base de datos 
+        //Si el usuario no existe o la contraseña es incorrecta, debera registrarse para realizar las consultas.
         private void login_Click(object sender, EventArgs e)
         {
             string mensaje = "2/" + Username.Text + "/" + Password.Text;
-            // Enviamos al servidor el nombre tecleado
+            // Enviamos al servidor el username y password tecleadas. // L
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
 
@@ -125,13 +104,13 @@ namespace WindowsFormsApplication1
                 MessageBox.Show("La contraseña o nombre de usuario no son correctos.");
 
         }
-
-        private void button2_Click(object sender, EventArgs e)
+        //Este boton tiene la funcion de enviar la consulta que seleccionamos con los respectivos parametros de esta introducidos por teclado.
+        private void enviar_Click(object sender, EventArgs e)
         {
-            if (Ivan.Checked && registered)
+            if (Ivan.Checked && registered) //CONSULTA1 (solo se realizara si se ha identificado el usuario previamente)
             {
                 string mensaje = "3/" + PerdedorBox.Text + "/" + PosicionBox.Text + "/" + PuntuacionBox.Text;
-                // Enviamos al servidor el nombre tecleado
+                // Enviamos al servidor los parametros introducidos por teclado para realizar la consulta.
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
 
@@ -141,7 +120,7 @@ namespace WindowsFormsApplication1
                 mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
                 MessageBox.Show("Los usuarios son los siguientes: " + mensaje);
             }
-            else if (Edgar.Checked && registered)
+            else if (Edgar.Checked && registered) //CONSULTA2 (solo se realizara si se ha identificado el usuario previamente)
             {
                 string mensaje = "4/" + UsernameConsultaBox.Text;
                 // Enviamos al servidor el username tecleado
@@ -155,10 +134,10 @@ namespace WindowsFormsApplication1
                 MessageBox.Show("Los usuarios son los siguientes: " + mensaje);
             }
 
-            else if (Omar.Checked && registered) 
+            else if (Omar.Checked && registered) //CONSULTA3 (solo se realizara si se ha identificado el usuario previamente)
             {
                 string mensaje = "5/" + NumJugadoresBox.Text + "/" + PuntuacionBox.Text + "/" + FechaBox.Text;
-                // Enviamos al servidor el username tecleado
+                // Enviamos al servidor los parametros introducidos por teclado para realizar la consulta.
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
 
@@ -169,10 +148,9 @@ namespace WindowsFormsApplication1
                 MessageBox.Show("Los IDs de partida son los siguientes: " + mensaje);
             }
             else
+                //En el caso de no haberse identificado, se exige haberlo hecho antes de pedir la consulta.
                 MessageBox.Show("Se debe registrar antes de realizar la consulta.");
         
         }
-
-     
     }
 }
