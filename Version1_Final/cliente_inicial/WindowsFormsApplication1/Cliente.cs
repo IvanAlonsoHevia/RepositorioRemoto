@@ -111,41 +111,65 @@ namespace WindowsFormsApplication1
             {
                 string mensaje = "3/" + PerdedorBox.Text + "/" + PosicionBox.Text + "/" + PuntuacionBox.Text;
                 // Enviamos al servidor los parametros introducidos por teclado para realizar la consulta.
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-                server.Send(msg);
-
-                //Recibimos la respuesta del servidor
-                byte[] msg2 = new byte[80];
-                server.Receive(msg2);
-                mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
-                MessageBox.Show("Los usuarios son los siguientes: " + mensaje);
+                if ((PerdedorBox.Text == "") || (PosicionBox.Text == "") || (PuntuacionBox.Text == ""))
+                {
+                    MessageBox.Show("Consulta mal formulada.");
+                }
+                else
+                {
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                    server.Send(msg);
+                    //Recibimos la respuesta del servidor
+                    byte[] msg2 = new byte[80];
+                    server.Receive(msg2);
+                    mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+                    MessageBox.Show("Los usuarios son los siguientes: " + mensaje);
+                }
             }
             else if (Edgar.Checked && registered) //CONSULTA2 (solo se realizara si se ha identificado el usuario previamente)
             {
                 string mensaje = "4/" + UsernameConsultaBox.Text;
                 // Enviamos al servidor el username tecleado
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-                server.Send(msg);
-
-                //Recibimos la respuesta del servidor
-                byte[] msg2 = new byte[80];
-                server.Receive(msg2);
-                mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
-                MessageBox.Show("Los usuarios son los siguientes: " + mensaje);
+                if (UsernameConsultaBox.Text == "")
+                {
+                    MessageBox.Show("Consulta mal formulada.");
+                }
+                else
+                {
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                    server.Send(msg);
+                    //Recibimos la respuesta del servidor
+                    byte[] msg2 = new byte[80];
+                    server.Receive(msg2);
+                    mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+                    if (mensaje == "")
+                        MessageBox.Show("Consulta mal formulada.");
+                    else
+                        MessageBox.Show("Los usuarios son los siguientes: " + mensaje);
+                }
             }
 
             else if (Omar.Checked && registered) //CONSULTA3 (solo se realizara si se ha identificado el usuario previamente)
             {
                 string mensaje = "5/" + NumJugadoresBox.Text + "/" + PuntuacionBox.Text + "/" + FechaBox.Text;
                 // Enviamos al servidor los parametros introducidos por teclado para realizar la consulta.
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-                server.Send(msg);
-
-                //Recibimos la respuesta del servidor
-                byte[] msg2 = new byte[80];
-                server.Receive(msg2);
-                mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
-                MessageBox.Show("Los IDs de partida son los siguientes: " + mensaje);
+                if ((NumJugadoresBox.Text == "") || (PuntuacionBox.Text == "") || (FechaBox.Text == ""))
+                {
+                    MessageBox.Show("Consulta mal formulada.");
+                }
+                else
+                {
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                    server.Send(msg);
+                    //Recibimos la respuesta del servidor
+                    byte[] msg2 = new byte[80];
+                    server.Receive(msg2);
+                    mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+                    if (mensaje == "")
+                        MessageBox.Show("Consulta mal formulada.");
+                    else
+                        MessageBox.Show("Los IDs de partida son los siguientes: " + mensaje);
+                }
             }
             else
                 //En el caso de no haberse identificado, se exige haberlo hecho antes de pedir la consulta.

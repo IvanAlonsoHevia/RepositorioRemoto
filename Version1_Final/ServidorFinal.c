@@ -7,13 +7,17 @@
 #include <stdio.h>
 #include <mysql.h>
 
-int registro (char username [20], char password [15], MYSQL *conn, int ID)
+int registro (char username [20], char password [15], MYSQL *conn)
 {
 	char consulta[1000];
 	MYSQL_RES *resultado;
+	MYSQL_RES *resultado2;
+	MYSQL_ROW fila;
 	MYSQL_ROW row;
 	int err;
 	int found;
+	char IDn [10];
+	int ID;
 	
 	sprintf (consulta, "SELECT * FROM (JUGADOR) WHERE JUGADOR.USERNAME = '%s';", username);
 	//Buscamos que no haya ningun error al consultar los datos.
@@ -42,6 +46,14 @@ int registro (char username [20], char password [15], MYSQL *conn, int ID)
 	
 	else
 	{	
+		// Ahora obtenemos el identificador del jugador anterior y 
+		// vamos aumentandolo a medida que se registra un usuario.
+		sprintf (IDn, "SELECT MAX(JUGADOR.ID) FROM JUGADOR;");
+		err = mysql_query(conn, IDn);
+		resultado2 = mysql_store_result (conn);
+		fila = mysql_fetch_row (resultado2);
+		ID = atoi(fila[0]);
+		ID=ID+1;
 		// Ahora construimos el string con el comando SQL
 		// para insertar el usuario con su password y su identificador en la base. 
 		// Ese string es: INSERT INTO JUGADOR VALUES ('ID', 'username', password);
@@ -95,19 +107,20 @@ int login (char username [20], char password [15], MYSQL *conn)
 
 //Consulta1: Usernames de los jugadores que cumplen que el perdedor de la partida sea el nombre introducido por consola, que la posicion del jugador sea la dada por consola, 
 //que la puntuación del jugador sea más pequeña que la que da el usuario y que no sea el mismo usuario.
-void consulta1 (char perdedor [20], int posicion, int puntuacion, MYSQL *conn, char sresultado [80])
+void consulta1 (char perdedor [20], int posicion, int puntuacion, MYSQL *conn, char respuesta [512])
 {
 	char consulta [1000];
 	MYSQL_RES *resultado;
 	MYSQL_ROW row;
 	int err;
-	sprintf (consulta, "SELECT DISTINCT JUGADOR.USERNAME FROM (JUGADOR, PARTIDA, PARTICIPACION) WHERE PARTIDA.PERDEDOR = '%s' AND PARTIDA.ID = PARTICIPACION.ID_P  AND PARTICIPACION.POSICION = %d AND PARTICIPACION.PUNTUACION < %d AND PARTICIPACION.ID_J = JUGADOR.ID AND JUGADOR.USERNAME NOT IN ('%s')", perdedor, posicion, puntuacion, perdedor);
+	sprintf (consulta, "SELECT DISTINCT JUGADOR.USERNAME FROM (JUGADOR, PARTIDA, PARTICIPACION) WHERE PARTIDA.PERDEDOR = '%s' AND PARTIDA.ID = PARTICIPACION.ID_P  AND PARTICIPACION.POSICION = %d AND PARTICIPACION.PUNTUACION < %d AND PARTICIPACION.ID_J = JUGADOR.ID AND JUGADOR.USERNAME NOT IN ('%s');", perdedor, posicion, puntuacion, perdedor);
 	//Utilizamos el sprintf para poder hacer una consulta sin tener que concatenar las diferentes restricciones.
 	//Buscamos que no haya ningun error al consultar los datos.
 	err = mysql_query (conn, consulta);
 	if (err!=0) {
 		printf ("Error al consultar datos de la base %u %s\n",
 				mysql_errno(conn), mysql_error(conn));
+		strcpy (respuesta, "Error al consultar datos de la base");
 		exit (1);
 	}
 	
@@ -115,8 +128,10 @@ void consulta1 (char perdedor [20], int posicion, int puntuacion, MYSQL *conn, c
 	resultado = mysql_store_result (conn);
 	row = mysql_fetch_row (resultado);
 	
-	if (row == NULL)
+	if (row == NULL){
 		printf ("No se han obtenido datos en la consulta\n");
+		strcpy (respuesta, "No se han obtenido datos en la consulta");
+	}
 	else
 	{
 		int cont=0;
@@ -125,17 +140,17 @@ void consulta1 (char perdedor [20], int posicion, int puntuacion, MYSQL *conn, c
 			//Si todo es correcto, el resultado de la consulta sera el siguiente:	
 			if (cont!=0)
 			{
-				sprintf (sresultado, "%s %s", sresultado, row[0]);
+				sprintf (respuesta, "%s %s", respuesta, row[0]);
 			}
 			else 
-				sprintf (sresultado, "%s", row[0]);
+				sprintf (respuesta, "%s", row[0]);
 			cont = cont+1;
 			row = mysql_fetch_row (resultado);
 		}
 	}
 }
 
-void consulta2 (char username [20], MYSQL *conn, char sresultado [80])
+void consulta2 (char username [20], MYSQL *conn, char respuesta [512])
 {
 	//Consulta: Usernames de los jugadores que han quedado en primer lugar en alguna de las partidas en las que
 	//el jugador introducido por el usuario ha jugado y en las que el numero de participantes >= 3
@@ -154,6 +169,7 @@ void consulta2 (char username [20], MYSQL *conn, char sresultado [80])
 	if (err!=0) {
 		printf ("Error al consultar datos de la base %u %s\n",
 				mysql_errno(conn), mysql_error(conn));
+		strcpy (respuesta, "Error al consultar datos de la base");
 		exit (1);
 	}
 	
@@ -162,7 +178,10 @@ void consulta2 (char username [20], MYSQL *conn, char sresultado [80])
 	row = mysql_fetch_row (resultado);
 	
 	if (row == NULL)
+	{
 		printf ("No se han obtenido datos en la consulta\n");
+		strcpy (respuesta, "No se han obtenido datos en la consulta");
+	}
 	else
 	{
 		int cont=0;
@@ -171,11 +190,11 @@ void consulta2 (char username [20], MYSQL *conn, char sresultado [80])
 			//Si todo es correcto, el resultado de la consulta sera el siguiente:	
 			if (cont!=0)
 			{
-				sprintf (sresultado, "%s %s", sresultado, row[0]);
+				sprintf (respuesta, "%s %s", respuesta, row[0]);
 			}
 			else 
 				{
-				sprintf (sresultado, "%s", row[0]);
+				sprintf (respuesta, "%s", row[0]);
 			}
 			cont = cont+1;
 			row = mysql_fetch_row (resultado);
@@ -187,7 +206,7 @@ void consulta2 (char username [20], MYSQL *conn, char sresultado [80])
 
 //Consulta3: IDs de partida en las que la puntuacion total de la partida sea mayor a una dada por consola,
 //que se haya jugado en una fecha y hora determinada y que haya un minimo de jugadores indicado por consola.
-void consulta3 (int minjug, int minpunt, char f_h [200], MYSQL *conn, char sresultado [80])
+void consulta3 (int minjug, int minpunt, char f_h [200], MYSQL *conn, char respuesta [512])
 {
 	char consulta [1000];
 	MYSQL_RES *resultado;
@@ -196,20 +215,6 @@ void consulta3 (int minjug, int minpunt, char f_h [200], MYSQL *conn, char sresu
 	
 	char minpunts[10];
 	char minjugs[10];
-	//Creamos una conexion al servidor MYSQL 
-	conn = mysql_init(NULL);
-	if (conn==NULL) {
-		printf ("Error al crear la conexion: %u %s\n", 
-				mysql_errno(conn), mysql_error(conn));
-		exit (1);
-	}
-	//inicializar la conexion
-	conn = mysql_real_connect (conn, "localhost", "root", "mysql", "JUEGO",0, NULL, 0);
-	if (conn==NULL) {
-		printf ("Error al inicializar la conexion: %u %s\n", 
-				mysql_errno(conn), mysql_error(conn));
-		exit (1);
-	}
 	
 	// construimos la consulta SQL
 	strcpy (consulta,"SELECT DISTINCT PARTIDA.ID FROM (PARTIDA, JUGADOR, PARTICIPACION) WHERE PARTIDA.FECHA_HORA = '");  
@@ -235,13 +240,16 @@ void consulta3 (int minjug, int minpunt, char f_h [200], MYSQL *conn, char sresu
 		printf ("Error al consultar datos de la base %u %s\n",
 				mysql_errno(conn), mysql_error(conn));
 		exit (1);
+		strcpy (respuesta, "Error al consultar datos de la base");
 	}
 	//recogemos el resultado de la consulta 
 	resultado = mysql_store_result (conn); 
 	row = mysql_fetch_row (resultado);
 	
-	if (row == NULL)
+	if (row == NULL) {
 		printf ("No se han obtenido datos en la consulta\n");
+		strcpy (respuesta, "Error al consultar datos en la base");
+	}
 	else
 	{
 		int cont=0;
@@ -250,10 +258,10 @@ void consulta3 (int minjug, int minpunt, char f_h [200], MYSQL *conn, char sresu
 			//Si todo es correcto, el resultado de la consulta sera el siguiente:	
 			if (cont!=0)
 			{
-				sprintf (sresultado, "%s %s", sresultado, row[0]);
+				sprintf (respuesta, "%s %s", respuesta, row[0]);
 			}
 			else 
-				sprintf (sresultado, "%s", row[0]);
+				sprintf (respuesta, "%s", row[0]);
 			cont = cont+1;
 			row = mysql_fetch_row (resultado);
 		}
@@ -274,7 +282,6 @@ int main(int argc, char *argv[]){
 	char username[20];
 	char perdedor[20];
 	char password [15];
-	int ID = 4;
 	int posicion;
 	int puntuacion;
 	int found; //nos indica si el jugador que quiere registrarse ya esta registrado
@@ -360,11 +367,10 @@ int main(int argc, char *argv[]){
 				strcpy (perdedor, p);
 				p = strtok( NULL, "/");
 				strcpy (password, p);
-				found = registro(perdedor, password, conn, ID);
+				found = registro(perdedor, password, conn);
 				
 				if (found ==0) {
 					sprintf (respuesta, "SI");
-					ID = ID+1;
 				} 
 				else 
 					sprintf(respuesta, "NO");
@@ -398,16 +404,14 @@ int main(int argc, char *argv[]){
 				posicion =  atoi (p);
 				p = strtok( NULL, "/");
 				puntuacion =  atoi (p);
-				consulta1 (username, posicion, puntuacion, conn, sresultado);
-				strcpy (respuesta, sresultado);
+				consulta1 (username, posicion, puntuacion, conn, respuesta);
 			}
 			
 			else if (codigo == 4) //consulta2
 			{
 				p = strtok( NULL, "/");
 				strcpy (username, p);
-				consulta2 (username, conn, sresultado);
-				strcpy (respuesta, sresultado);
+				consulta2 (username, conn, respuesta);
 			}
 			
 			else if (codigo == 5) //consulta3
@@ -419,8 +423,7 @@ int main(int argc, char *argv[]){
 				p = strtok( NULL, "/");
 				strcpy (f_h, p);
 				
-				consulta3 (minjug, minpunt, f_h, conn, sresultado);
-				strcpy (respuesta, sresultado);
+				consulta3 (minjug, minpunt, f_h, conn, respuesta);
 			}
 				
 			if (codigo !=0)
