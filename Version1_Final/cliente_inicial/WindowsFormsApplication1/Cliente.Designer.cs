@@ -30,8 +30,8 @@
         {
             this.label2 = new System.Windows.Forms.Label();
             this.Username = new System.Windows.Forms.TextBox();
-            this.conectar = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.logout = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.PerdedorBox = new System.Windows.Forms.TextBox();
@@ -52,9 +52,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.PosicionBox = new System.Windows.Forms.TextBox();
             this.Ivan = new System.Windows.Forms.RadioButton();
-            this.desconectar = new System.Windows.Forms.Button();
-            this.logout = new System.Windows.Forms.Button();
+            this.ListaConectados = new System.Windows.Forms.DataGridView();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ListaConectados)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -75,18 +75,6 @@
             this.Username.Name = "Username";
             this.Username.Size = new System.Drawing.Size(218, 26);
             this.Username.TabIndex = 3;
-            // 
-            // conectar
-            // 
-            this.conectar.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.conectar.Location = new System.Drawing.Point(38, 62);
-            this.conectar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.conectar.Name = "conectar";
-            this.conectar.Size = new System.Drawing.Size(224, 48);
-            this.conectar.TabIndex = 4;
-            this.conectar.Text = "conectar";
-            this.conectar.UseVisualStyleBackColor = true;
-            this.conectar.Click += new System.EventHandler(this.conectar_Click);
             // 
             // groupBox1
             // 
@@ -114,7 +102,7 @@
             this.groupBox1.Controls.Add(this.Ivan);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.Username);
-            this.groupBox1.Location = new System.Drawing.Point(34, 133);
+            this.groupBox1.Location = new System.Drawing.Point(13, 14);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -122,6 +110,18 @@
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Peticion";
+            // 
+            // logout
+            // 
+            this.logout.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.logout.Location = new System.Drawing.Point(501, 137);
+            this.logout.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.logout.Name = "logout";
+            this.logout.Size = new System.Drawing.Size(224, 48);
+            this.logout.TabIndex = 11;
+            this.logout.Text = "log out";
+            this.logout.UseVisualStyleBackColor = true;
+            this.logout.Click += new System.EventHandler(this.logout_Click);
             // 
             // label7
             // 
@@ -326,43 +326,29 @@
                 "perdido.";
             this.Ivan.UseVisualStyleBackColor = true;
             // 
-            // desconectar
+            // ListaConectados
             // 
-            this.desconectar.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.desconectar.Location = new System.Drawing.Point(38, 511);
-            this.desconectar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.desconectar.Name = "desconectar";
-            this.desconectar.Size = new System.Drawing.Size(220, 82);
-            this.desconectar.TabIndex = 10;
-            this.desconectar.Text = "desconectar";
-            this.desconectar.UseVisualStyleBackColor = true;
-            this.desconectar.Click += new System.EventHandler(this.desconectar_Click);
-            // 
-            // logout
-            // 
-            this.logout.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.logout.Location = new System.Drawing.Point(501, 137);
-            this.logout.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.logout.Name = "logout";
-            this.logout.Size = new System.Drawing.Size(224, 48);
-            this.logout.TabIndex = 11;
-            this.logout.Text = "log out";
-            this.logout.UseVisualStyleBackColor = true;
-            this.logout.Click += new System.EventHandler(this.logout_Click);
+            this.ListaConectados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ListaConectados.Location = new System.Drawing.Point(13, 398);
+            this.ListaConectados.Name = "ListaConectados";
+            this.ListaConectados.RowTemplate.Height = 28;
+            this.ListaConectados.Size = new System.Drawing.Size(1273, 201);
+            this.ListaConectados.TabIndex = 7;
+            this.ListaConectados.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ListaConectados_CellContentClick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1306, 865);
-            this.Controls.Add(this.desconectar);
+            this.ClientSize = new System.Drawing.Size(1413, 865);
+            this.Controls.Add(this.ListaConectados);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.conectar);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form1";
             this.Text = "Form1";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ListaConectados)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -371,14 +357,12 @@
 
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox Username;
-        private System.Windows.Forms.Button conectar;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton Edgar;
         private System.Windows.Forms.RadioButton Ivan;
         private System.Windows.Forms.RadioButton Omar;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox PosicionBox;
-        private System.Windows.Forms.Button desconectar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox Password;
         private System.Windows.Forms.Label label6;
@@ -395,6 +379,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox PerdedorBox;
         private System.Windows.Forms.Button logout;
+        private System.Windows.Forms.DataGridView ListaConectados;
     }
 }
 
